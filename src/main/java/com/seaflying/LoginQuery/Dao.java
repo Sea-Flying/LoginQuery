@@ -18,24 +18,19 @@ public class Dao {
 		this.con = DriverManager.getConnection(url, user, pwd);
 	}
 	
-	public boolean add(java.util.Date d, String user, String pc) throws Exception {
-		
-	}
-	
-	public ArrayList<String> get_user() {
-		 ArrayList<String> re =  new ArrayList<String>();
-		 
-		 
-		 return re;
+	public boolean add(String table, java.util.Date d, int user_id, int pc_id) throws Exception {
+		Statement stmt = this.con.createStatement();
+		String sql = ""
 	}
 	
 	
-	public List<String> get_pc() {
-		 ArrayList<String> re =  new ArrayList<String>();
+	public Map<Integer, Integer>  get_uer_pc_map() {
+		Map<Integer, Integer> re =  new HashMap<>();
+		Statement stmt
 		 
-		 
-		 return re;
+		return re;
 	}
+	
 	
 	public void close() throws Exception{
 		this.con.close();
