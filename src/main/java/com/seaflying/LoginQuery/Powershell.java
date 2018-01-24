@@ -17,7 +17,7 @@ public class Powershell {
 		
 		ps.waitFor();
 		ps.destroy();
-		DateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = sdf.parse(line);
 		return date;
 	}

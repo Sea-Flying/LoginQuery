@@ -17,18 +17,22 @@ public class Main {
 			int user_id = entry.getKey();
 			int pc_id = entry.getValue();
 			Date time_s1[] = ps.getTime(user_id ,pc_id , 1);
-			int len = time_s1.length;
+			Date time_s2[] = ps.getTime(user_id, pc_id, 2);
+			Date time_s3[] = ps.getTime(user_id, pc_id, 3);
+			int len_1 = time_s1.length;
+			int len_2 = time_s2.length;
+			int len_3 = time_s3.length;
 			for (int i = 0; i < len; i++) {
 				mysql.add("status_1", time_s1[i], user_id, pc_id);
 			}
+			for (int i = 0; i < len; i++) {
+				mysql.add("status_2", time_s2[i], user_id, pc_id);
+			}
+			for (int i = 0; i < len; i++) {
+				mysql.add("status_3", time_s3[i], user_id, pc_id);
+			}
 		}
-		
-		
 	}
-
-	
-	
-
 
 
 
