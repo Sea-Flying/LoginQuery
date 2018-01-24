@@ -3,9 +3,6 @@ package com.seaflying.LoginQuery;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
-
-import javax.swing.text.DefaultEditorKit.InsertBreakAction;
-
 import java.io.*;
 
 public class Dao {
