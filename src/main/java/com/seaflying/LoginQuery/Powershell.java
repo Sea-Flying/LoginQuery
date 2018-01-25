@@ -10,11 +10,18 @@ public class Powershell {
 	
 	private Process ps;
 	
-	public List<Date> getTime(int user_id, int pc_id, int status) throws Exception {
+	public List<Date> getTime(String user, String pc, int status, long t_diff) throws Exception {
 		List<Date> date = new ArrayList<>();
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String cmd = "";
-		this.ps = Runtime.getRuntime().exec(cmd+" "+user_id+" "+pc_id+" "+status);
+		String script = "D:\\Develop\\project\\LoginQuery\\scripts\\b.ps1";
+		String cmd ="";
+		if(t_diff == -77) {			
+			cmd = "powershell "+ script +" "+"songqq-PC\\songqq"+" "+pc+" "+status;
+		}
+		else if (t_diff > 0) {
+			cmd = "powershell "+ script +" "+"songqq-PC\\songqq"+" "+pc+" "+t_diff+" "+status;
+		}
+		this.ps = Runtime.getRuntime().exec(cmd);
 		BufferedReader re = new BufferedReader(new InputStreamReader(ps.getInputStream(),"GBK"));
 		re.readLine();
 		String str = null;
@@ -26,5 +33,6 @@ public class Powershell {
 		ps.destroy();
 		return date;
 	}
+
 	
 }
