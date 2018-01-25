@@ -16,10 +16,10 @@ public class Powershell {
 		String script = "D:\\Develop\\project\\LoginQuery\\scripts\\b.ps1";
 		String cmd ="";
 		if(t_diff == -77) {			
-			cmd = "powershell "+ script +" "+"songqq-PC\\songqq"+" "+pc+" "+status;
+			cmd = "powershell "+ script +" "+user+" "+pc+" "+status;
 		}
 		else if (t_diff > 0) {
-			cmd = "powershell "+ script +" "+"songqq-PC\\songqq"+" "+pc+" "+t_diff+" "+status;
+			cmd = "powershell "+ script +" "+user+" "+pc+" "+t_diff+" "+status;
 		}
 		this.ps = Runtime.getRuntime().exec(cmd);
 		BufferedReader re = new BufferedReader(new InputStreamReader(ps.getInputStream(),"GBK"));
