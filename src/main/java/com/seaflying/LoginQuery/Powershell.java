@@ -7,13 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Powershell {
+
 	
 	private Process ps;
 	
 	public List<Date> getTime(String user, String pc, int status, long t_diff) throws Exception {
 		List<Date> date = new ArrayList<>();
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String script = "D:\\Develop\\project\\LoginQuery\\scripts\\b.ps1";
+		String script = "C:\\cmd\\loginquery.ps1";
 		String cmd ="";
 		if(t_diff == -77) {			
 			cmd = "powershell "+ script +" "+user+" "+pc+" "+status;
@@ -22,11 +23,13 @@ public class Powershell {
 			cmd = "powershell "+ script +" "+user+" "+pc+" "+t_diff+" "+status;
 		}
 		this.ps = Runtime.getRuntime().exec(cmd);
+		ps.getOutputStream().close();
+		ps.getErrorStream().close();
 		BufferedReader re = new BufferedReader(new InputStreamReader(ps.getInputStream(),"GBK"));
-		re.readLine();
-		String str = null;
-	    while((str = re.readLine()) != null){
-	    	Date d = sdf.parse(str);
+		String str = re.readLine();
+		int num = Integer.parseInt(str);    
+		for(int i = 0; i < num; i++ ) {
+	    	Date d = sdf.parse(re.readLine());
 			date.add(d);
 	    }
 		re.close();

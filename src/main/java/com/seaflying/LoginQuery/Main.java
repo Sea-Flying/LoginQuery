@@ -12,7 +12,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception{
 		Powershell ps = new Powershell();
-		Dao mysql = new Dao("jdbc:mysql://127.0.0.1/tmp", "root", "root");
+		Dao mysql = new Dao("jdbc:mysql://10.155.215.131:3306/loginquery", "root", "root");
 		Map<Integer, Integer> up_map = mysql.get_uer_pc_map();
 		long c_time = (new Date()).getTime();
 		long p_time = mysql.get_last_time();
@@ -23,9 +23,10 @@ public class Main {
 			int pc_id = entry.getValue();
 			String user = mysql.get_user(user_id);
 			String pc = mysql.get_pc(pc_id);
-			List<Date> time_s1 = ps.getTime(user ,pc, 1, t_diff);
-			List<Date> time_s2 = ps.getTime(user, pc, 2, t_diff);
-			List<Date> time_s3 = ps.getTime(user, pc, 3, t_diff);
+			String domain = "yzwsj\\";
+			List<Date> time_s1 = ps.getTime(domain+user ,pc, 1, t_diff);
+			List<Date> time_s2 = ps.getTime(domain+user, pc, 2, t_diff);
+			List<Date> time_s3 = ps.getTime(domain+user, pc, 3, t_diff);
 			Iterator<Date> it_1 = time_s1.iterator();
 			Iterator<Date> it_2 = time_s2.iterator();
 			Iterator<Date> it_3 = time_s3.iterator();
