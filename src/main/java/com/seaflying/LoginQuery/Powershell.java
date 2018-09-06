@@ -5,14 +5,15 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.seaflying.LoginQuery.LoginResultPO;
 
 public class Powershell {
 
 	
 	private Process ps;
 	
-	public List<Date> getTime(String user, String pc, int status, long t_diff) throws Exception {
-		List<Date> date = new ArrayList<>();
+	public List<LoginResultPO> getLoginResult(String user, String pc, int status, long t_diff) {
+		List<LoginResultPO> re = new ArrayList<>();
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String script = "C:\\cmd\\loginquery.ps1";
 		String cmd ="";
@@ -22,19 +23,28 @@ public class Powershell {
 		else if (t_diff > 0) {
 			cmd = "powershell "+ script +" "+user+" "+pc+" "+t_diff+" "+status;
 		}
-		this.ps = Runtime.getRuntime().exec(cmd);
-		ps.getOutputStream().close();
-		ps.getErrorStream().close();
-		BufferedReader re = new BufferedReader(new InputStreamReader(ps.getInputStream(),"GBK"));
-		String str = re.readLine();
-		int num = Integer.parseInt(str);    
-		for(int i = 0; i < num; i++ ) {
-	    	Date d = sdf.parse(re.readLine());
-			date.add(d);
-	    }
-		re.close();
+		try {
+			this.ps = Runtime.getRuntime().exec(cmd);
+			ps.getOutputStream().close();
+			ps.getErrorStream().close();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream(), "GBK"));
+			String str = reader.readLine();
+			int num = Integer.parseInt(str);
+			for (int i = 0; i < num; i++) {
+				LoginResultPO tmp = new LoginResultPO();
+				Date time = sdf.parse(reader.readLine());
+				String ip = reader.readLine();
+				tmp.setTimestamp(time);
+				tmp.setIpAddress(ip);
+				re.add(tmp);
+			}
+			reader.close();
+		}catch (Exception e){
+			e.printStackTrace();
+			System.err.println("Execute Loginquery PowerShell scripts or retrieve info Failed!");
+		}
 		ps.destroy();
-		return date;
+		return re;
 	}
 
 	

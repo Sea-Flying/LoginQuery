@@ -4,15 +4,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.seaflying.LoginQuery.*;
+import com.seaflying.LoginQuery.LoginResultPO;
 
 public class Main {	
 	
 	
 	public static void main(String[] args) throws Exception{
 		Powershell ps = new Powershell();
-		Dao mysql = new Dao("jdbc:mysql://10.155.215.131:3306/loginquery", "root", "root");
+		Dao mysql = new Dao("jdbc:mysql://10.141.222.158:3306/manageplatform", "root", "123456");
 		Map<Integer, Integer> up_map = mysql.get_uer_pc_map();
 		long c_time = (new Date()).getTime();
 		long p_time = mysql.get_last_time();
@@ -23,22 +22,31 @@ public class Main {
 			int pc_id = entry.getValue();
 			String user = mysql.get_user(user_id);
 			String pc = mysql.get_pc(pc_id);
-			String domain = "yzwsj\\";
-			List<Date> time_s1 = ps.getTime(domain+user ,pc, 1, t_diff);
-			List<Date> time_s2 = ps.getTime(domain+user, pc, 2, t_diff);
-			List<Date> time_s3 = ps.getTime(domain+user, pc, 3, t_diff);
-			Iterator<Date> it_1 = time_s1.iterator();
-			Iterator<Date> it_2 = time_s2.iterator();
-			Iterator<Date> it_3 = time_s3.iterator();
+			String domain = "shdc\\";
+			System.out.println("user :"+user+" pc:"+pc+" begin");
+			List<LoginResultPO> time_s1 = ps.getLoginResult(domain+user ,pc, 1, t_diff);
+			System.out.println("status 1 query completed, total:"+time_s1.size());
+			List<LoginResultPO> time_s2 = ps.getLoginResult(domain+user, pc, 2, t_diff);
+			System.out.println("status 2 query completed, total:"+time_s2.size());
+			List<LoginResultPO> time_s3 = ps.getLoginResult(domain+user, pc, 3, t_diff);
+			System.out.println("status 3 query completed total:"+time_s3.size());
+			Iterator<LoginResultPO> it_1 = time_s1.iterator();
+			Iterator<LoginResultPO> it_2 = time_s2.iterator();
+			Iterator<LoginResultPO> it_3 = time_s3.iterator();
 			while(it_1.hasNext()){
-				mysql.add("status_1",it_1.next(), user_id, pc_id);
+				LoginResultPO tmp = it_1.next();
+				mysql.add("monitor_status_1",tmp.getTimestamp(), user_id, pc_id, tmp.getIpAddress());
 			}
 			while(it_2.hasNext()){
-				mysql.add("status_2",it_2.next(), user_id, pc_id);
+				LoginResultPO tmp = it_2.next();
+				mysql.add("monitor_status_2",tmp.getTimestamp(), user_id, pc_id, tmp.getIpAddress());
 			}
 			while(it_3.hasNext()){
-				mysql.add("status_3",it_3.next(), user_id, pc_id);
-			}			
+				LoginResultPO tmp = it_3.next();
+				mysql.add("monitor_status_3",tmp.getTimestamp(), user_id, pc_id, tmp.getIpAddress());
+			}
+			System.out.println("user :"+user+" pc:"+pc+" end");
+			System.out.println();
 		} 
 		mysql.close();
 	}
