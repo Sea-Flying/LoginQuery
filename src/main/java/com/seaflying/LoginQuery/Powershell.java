@@ -15,7 +15,7 @@ public class Powershell {
 	public List<LoginResultPO> getLoginResult(String user, String pc, int status, long t_diff) {
 		List<LoginResultPO> re = new ArrayList<>();
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String script = "D:\\Develop\\project\\LoginQuery\\scripts\\loginquery_with_ipaddr.ps1";
+		String script = "C:\\scripts\\monitor\\loginquery_with_ipaddr.ps1";
 		String cmd ="";
 		if(t_diff == -77) {			
 			cmd = "powershell "+ script +" "+user+" "+pc+" "+status;

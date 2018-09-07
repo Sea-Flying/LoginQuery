@@ -11,7 +11,7 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception{
 		Powershell ps = new Powershell();
-		Dao mysql = new Dao("jdbc:mysql://localhost:3306/loginquery", "root", "root");
+		Dao mysql = new Dao("jdbc:mysql://10.141.222.158:3306/manageplatform", "root", "123456");
 		List<IntPairPO> up_map = mysql.get_uer_pc_map();
 		long c_time = (new Date()).getTime();
 		long p_time = mysql.get_last_time();
@@ -22,7 +22,7 @@ public class Main {
 			int pc_id = entry.getB();
 			String user = mysql.get_user(user_id);
 			String pc = mysql.get_pc(pc_id);
-			String domain = "songqq-pc\\";
+			String domain = "";
 			System.out.println("user :"+user+" pc:"+pc+" begin");
 			List<LoginResultPO> time_s1 = ps.getLoginResult(domain+user ,pc, 1, t_diff);
 			System.out.println("status 1 query completed, total:"+time_s1.size());
