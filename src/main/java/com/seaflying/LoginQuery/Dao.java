@@ -38,19 +38,19 @@ public class Dao {
 		}
 	}
 		
-	public Map<Integer, Integer>  get_uer_pc_map()  {
-		Map<Integer, Integer> re =  new HashMap<>();
+	public List<IntPairPO> get_uer_pc_map()  {
+		List<IntPairPO> re =  new ArrayList<>();
 		try {
 			Statement stmt = this.con.createStatement();
-			String sql = "select * from monitor_map_user_pc";
+			String sql = "select * from monitor_map_user_jumper";
 			ResultSet resultSet = stmt.executeQuery(sql);
 			while (resultSet.next()) {
-				re.put(resultSet.getInt("user_id"), resultSet.getInt("pc_id"));
+				re.add(new IntPairPO(resultSet.getInt("user_id"), resultSet.getInt("jumper_id")));
 			}
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.err.println("Select info from table map_user_pc Failed!");
+			System.err.println("Select info from table monitor_map_user_jumper Failed!");
 		}
 		return re;
 	}
@@ -75,14 +75,14 @@ public class Dao {
 		String re = null;
 		try {
 			Statement stmt = this.con.createStatement();
-			String sql = "select name from monitor_pcs where id="+id;
+			String sql = "select name from monitor_jumpers where id="+id;
 			ResultSet resultSet = stmt.executeQuery(sql);
 			resultSet.next();
 			re = resultSet.getString("name");
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.err.println("Select info from pcs Failed!");
+			System.err.println("Select info from monitor_jumpers Failed!");
 		}
 		return re;
 	}

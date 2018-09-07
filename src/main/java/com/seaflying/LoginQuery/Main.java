@@ -11,18 +11,18 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception{
 		Powershell ps = new Powershell();
-		Dao mysql = new Dao("jdbc:mysql://10.141.222.158:3306/manageplatform", "root", "123456");
-		Map<Integer, Integer> up_map = mysql.get_uer_pc_map();
+		Dao mysql = new Dao("jdbc:mysql://localhost:3306/loginquery", "root", "root");
+		List<IntPairPO> up_map = mysql.get_uer_pc_map();
 		long c_time = (new Date()).getTime();
 		long p_time = mysql.get_last_time();
 		long t_diff = (p_time == 0) ? -77 : c_time-p_time ;	
 		mysql.set_last_time(new Date());
-		for (Map.Entry<Integer, Integer> entry : up_map.entrySet()) { 
-			int user_id = entry.getKey();
-			int pc_id = entry.getValue();
+		for (IntPairPO entry : up_map) {
+			int user_id = entry.getA();
+			int pc_id = entry.getB();
 			String user = mysql.get_user(user_id);
 			String pc = mysql.get_pc(pc_id);
-			String domain = "shdc\\";
+			String domain = "songqq-pc\\";
 			System.out.println("user :"+user+" pc:"+pc+" begin");
 			List<LoginResultPO> time_s1 = ps.getLoginResult(domain+user ,pc, 1, t_diff);
 			System.out.println("status 1 query completed, total:"+time_s1.size());
